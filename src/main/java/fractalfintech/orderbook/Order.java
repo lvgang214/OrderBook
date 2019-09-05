@@ -4,11 +4,15 @@ public class Order
 {
     private double price;
     private int quantity;
+    private String id;
+    private long timestamp;
 
-    public Order(double price, int quantity)
+    public Order(double price, int quantity,String id)
     {
         this.price = price;
         this.quantity = quantity;
+        this.id = id;
+        this.timestamp = System.currentTimeMillis();
     }
 
     public double getPrice()
@@ -29,6 +33,14 @@ public class Order
     public void setQuantity(int newQuantity)
     {
         this.quantity = newQuantity;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String toString()

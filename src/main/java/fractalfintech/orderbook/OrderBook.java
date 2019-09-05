@@ -4,13 +4,7 @@ import fractalfintech.orderbook.Order;
 
 import java.lang.Double;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,12 +41,12 @@ public class OrderBook
     /*  Adds bid to map by hashing the price, then
      *  adding bid to list located in that hash bucket
      */
-    public void addBid(double price, int quantity)
+    public void addBid(double price, int quantity,String id)
     {
     	logger.info("addBid qty : {}", quantity);
     	logger.info("addBid price : {}", price);
         List<Order> bucket = getBucket(bidMap, price);
-        Order newBid = new Order(price, quantity);
+        Order newBid = new Order(price, quantity,id);
         bucket.add(newBid);
         bidMap.put(newBid.getPrice(), bucket);
         bidMaxPriceList.add(price);
@@ -62,10 +56,10 @@ public class OrderBook
     /*  Adds offer to map by hashing the price, then
      *  adding offer to list located in that hash bucket
      */
-    public void addOffer(double price, int quantity)
+    public void addOffer(double price, int quantity,String id)
     {
         List<Order> bucket = getBucket(offerMap, price);
-        Order newOffer = new Order(price, quantity);
+        Order newOffer = new Order(price, quantity,id);
     	logger.info("addOffer qty : {}", newOffer.getQuantity());
     	logger.info("addOffer price : {}", newOffer.getPrice());
     	logger.info("offerMap size : {}", bucket.size());
@@ -164,6 +158,9 @@ public class OrderBook
                 }
             }
         }
+    }
+    public double getOfferMinPrice(){
+        return offerMinPriceList.peek();
     }
 
     // Returns the string printed for a successful trade.

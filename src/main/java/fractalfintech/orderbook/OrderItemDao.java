@@ -3,6 +3,7 @@ package fractalfintech.orderbook;
 public class OrderItemDao {
 
     private String name;
+    private String id;
     private double price;
     private int qty;
     private String type;
@@ -38,6 +39,14 @@ public class OrderItemDao {
 
     public void setQty(int qty) {
         this.qty = qty;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public double getPrice() {

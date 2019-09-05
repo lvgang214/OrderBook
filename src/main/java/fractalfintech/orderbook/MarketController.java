@@ -40,7 +40,7 @@ public class MarketController
     public MarketController()
     {
         marketList = new MarketList();
-        marketList.Add("Test");
+        //marketList.Add("Test");
     }
 
 
@@ -60,8 +60,12 @@ public class MarketController
     @RequestMapping(value = "/market/bid/add", method = RequestMethod.POST,consumes="application/json")
   	public ResponseEntity<String> AddMarketBid(@RequestBody OrderItemDao bid) {
     	logger.info("MarketController bid name : {}", bid.getName());
+        logger.info("MarketController bid id : {}", bid.getId());
     	logger.info("MarketController bid price : {}", bid.getPrice());
     	logger.info("MarketController bid qty : {}", bid.getQty());
+    	if (bid.getPrice() <= 0){
+    	    bid.setPrice(marketList.getOrderBook().getOfferMinPrice());
+        }
     	marketList.AddBid(bid);
   		return new ResponseEntity<String>("success: bid added.", HttpStatus.OK);
   	}
@@ -71,8 +75,12 @@ public class MarketController
     @RequestMapping(value = "/market/offer/add", method = RequestMethod.POST,consumes="application/json")
   	public ResponseEntity<String> AddMarketOffer(@RequestBody OrderItemDao offer) {
     	logger.info("MarketController offer name : {}", offer.getName());
+        logger.info("MarketController offer id : {}", offer.getId());
     	logger.info("MarketController offer price : {}", offer.getPrice());
     	logger.info("MarketController offer qty : {}", offer.getQty());
+    	if (offer.getPrice() <= 0){
+            return new ResponseEntity<String>("success: offer FAIL.", HttpStatus.BAD_REQUEST);
+        }
     	marketList.AddOffer(offer);
   		return new ResponseEntity<String>("success: offer added.", HttpStatus.OK);
   	}
@@ -90,12 +98,6 @@ public class MarketController
     	logger.info("MarketController GetMarketBid name : {}", bid.getName());
     	Map<Double, List<Order>> list = marketList.GetBidMap(bid);
     	return new ResponseEntity<Map<Double, List<Order>>>(list, HttpStatus.OK);
-  	}
-    
-    
-    @RequestMapping("/")
-  	public String index() {
-  		return "Greetings from Spring Boot!";
   	}
 
   }

@@ -33,8 +33,8 @@ public class MarketList
     public MarketList()
     {
         orderBooks = new HashMap<String, OrderBook>();
-        market = new OrderBook("Test");
-        orderBooks.put("Test", market);
+        /*market = new OrderBook("Test");
+        orderBooks.put("Test", market);*/
     }
 
     public List<String> GetList()
@@ -53,23 +53,17 @@ public class MarketList
 
     public void AddBid(OrderItemDao bid)
     {
-    	logger.info("MarketList AddBid name : {}", bid.getName());
-    	logger.info("MarketList AddBid price : {}", bid.getPrice());
-    	logger.info("MarketList AddBid qty : {}", bid.getQty());
     	if (orderBooks.containsKey(bid.getName())) {
     		OrderBook book = orderBooks.get(bid.getName());
-    		book.addBid(bid.getPrice(), bid.getQty());
+    		book.addBid(bid.getPrice(), bid.getQty(),bid.getId());
     	}
     }
 
     public void AddOffer(OrderItemDao offer)
     {
-    	logger.info("MarketList AddOffer name : {}", offer.getName());
-    	logger.info("MarketList AddOffer price : {}", offer.getPrice());
-    	logger.info("MarketList AddOffer qty : {}", offer.getQty());
     	if (orderBooks.containsKey(offer.getName())) {
     		OrderBook book = orderBooks.get(offer.getName());
-    		book.addOffer(offer.getPrice(), offer.getQty());
+    		book.addOffer(offer.getPrice(), offer.getQty(),offer.getId());
     	}
     }
 
@@ -95,6 +89,10 @@ public class MarketList
             return offerMap;
     	}
     	return null;
+    }
+
+    public OrderBook getOrderBook(){
+        return this.market;
     }
 
   }
